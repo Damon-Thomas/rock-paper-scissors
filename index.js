@@ -1,7 +1,7 @@
 
 // Get computer's random choice between 0-2
 function getComputerChoice() {
-    choice = Math.floor(Math.random() * 3);
+    let choice = Math.floor(Math.random() * 3);
     if (choice < 1) {
         return "rock";}
     else if (choice < 2) {
@@ -11,5 +11,11 @@ function getComputerChoice() {
     else {
         return "internal error";}
 }
+console.log(getComputerChoice());
+//request user choice and prep for comparison
+function playerSelection() {
+    let player_choice = prompt("Rock, Paper, or Scissors");
+    return player_choice.toLowerCase();
+}
 
-
+console.log(playerSelection());
