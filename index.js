@@ -15,13 +15,15 @@ function getComputerChoice() {
 
 //request user choice and prep for comparison
 function playerSelection() {
-    let player_choice = prompt("Rock, Paper, or Scissors");
-    return player_choice.toLowerCase();
+    let playerChoice = prompt("Rock, Paper, or Scissors");
+    playerChoice = playerChoice.toLowerCase();
+    if ((playerChoice === ("rock")) || (playerChoice === ("paper")) || (playerChoice === ("scissors"))) {
+        return playerChoice;}
+    else {
+        console.log("Invalid Input")
+        playerSelection()
+    }  
 }
-
-
-
-
 
  // result of game loss 0, win 1, tie 2
 function playerWins(userInput, computerInput) {
@@ -37,4 +39,42 @@ function playerWins(userInput, computerInput) {
         return 0
     }   
 }
-console.log(playerWins(getComputerChoice(), playerSelection()))
+
+//Generate string for user
+function userResponse(outcome, winningInput){
+    let response;
+    if (outcome == 2) {
+    return ("It's a tie!");}
+    else if (outcome == 1) {
+        response = "You Win! ";}
+    else {
+        response = "You Lose! ";}
+    if (winningInput === "rock") {
+        response = response + "Rock beats Scissors";}
+    else if (winningInput === "paper") {
+        response = response + "Paper beats Rock";}
+    else if (winningInput === "scissors") {
+        response = response + "Scissors beats Paper";}
+    return(response)
+}
+
+//Operates the game
+function playGame() {
+    userInput = playerSelection();
+    computerInput = getComputerChoice();
+    gameResult = playerWins(userInput, computerInput);
+    let winningInput;
+    if (gameResult == 0) {
+        winningInput = computerInput;}
+    else if (gameResult == 1) {
+        winningInput = userInput;}
+    console.log(userResponse(gameResult, winningInput));
+}
+
+//playgame 5 times
+function letsPlay() {
+    for (let i = 0; i < 5; ++i) {
+        playGame()
+}}
+
+letsPlay()
