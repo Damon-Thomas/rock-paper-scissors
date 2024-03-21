@@ -65,16 +65,33 @@ function playGame() {
     gameResult = playerWins(userInput, computerInput);
     let winningInput;
     if (gameResult == 0) {
+        computerScore += 1
         winningInput = computerInput;}
     else if (gameResult == 1) {
+        userScore += 1
         winningInput = userInput;}
     console.log(userResponse(gameResult, winningInput));
 }
-
+let userScore = 0;
+let computerScore = 0;
 //playgame 5 times
 function letsPlay() {
+    userScore = 0;
+    computerScore = 0;
     for (let i = 0; i < 5; ++i) {
-        playGame()
-}}
+        playGame();}
+    if (userScore > computerScore) {
+        let playAgain = prompt("You Win! Play again y/n?");
+        if (playAgain === "y") {
+            letsPlay()}}
+    else if (userScore < computerScore) {
+        let playAgain = prompt("You Lose! Play again y/n?");
+        if (playAgain === "y") {
+            letsPlay()}}
+    else {
+        let playAgain = prompt("Tie! Play again y/n?");
+        if (playAgain === "y") {
+            letsPlay()}}
+}
 
 letsPlay()
