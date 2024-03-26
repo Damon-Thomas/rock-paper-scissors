@@ -14,30 +14,36 @@ function getComputerChoice() {
 
 
 //request user choice and prep for comparison
-function playerSelection() {
+function getPlayerSelection() {
     let playerChoice = prompt("Rock, Paper, or Scissors");
     playerChoice = playerChoice.toLowerCase();
     if ((playerChoice === ("rock")) || (playerChoice === ("paper")) || (playerChoice === ("scissors"))) {
         return playerChoice;}
     else {
-        console.log("Invalid Input")
-        playerSelection()
+        console.log("Invalid Input");
+        getPlayerSelection();
     }  
 }
 
  // result of game loss 0, win 1, tie 2
-function playerWins(userInput, computerInput) {
+function getWhoWins(userInput, computerInput) {
+    result = 2;
     if (userInput === computerInput) {
-        return 2}
+        winningInput = "";
+        result = 2;
+        }
     else if 
       ((userInput === "rock" && computerInput === "scissors") || 
       (userInput === "paper" && computerInput === "rock") || 
       (userInput === "scissors" && computerInput === "paper")) {
-        return (1);
+        winningInput = userInput;
+        result = 1;
     }
     else {
-        return 0
-    }   
+        winningInput = computerInput
+        result = 0;
+    } 
+    return result;  
 }
 
 //Generate string for user
@@ -58,40 +64,67 @@ function userResponse(outcome, winningInput){
     return(response)
 }
 
-//Operates the game
-function playGame() {
-    userInput = playerSelection();
-    computerInput = getComputerChoice();
-    gameResult = playerWins(userInput, computerInput);
-    let winningInput;
-    if (gameResult == 0) {
-        computerScore += 1
-        winningInput = computerInput;}
-    else if (gameResult == 1) {
-        userScore += 1
-        winningInput = userInput;}
-    console.log(userResponse(gameResult, winningInput));
-}
-let userScore = 0;
-let computerScore = 0;
-//playgame 5 times
-function letsPlay() {
-    userScore = 0;
-    computerScore = 0;
-    for (let i = 0; i < 5; ++i) {
-        playGame();}
-    if (userScore > computerScore) {
-        let playAgain = prompt("You Win! Play again y/n?");
-        if (playAgain === "y") {
-            letsPlay()}}
-    else if (userScore < computerScore) {
-        let playAgain = prompt("You Lose! Play again y/n?");
-        if (playAgain === "y") {
-            letsPlay()}}
-    else {
-        let playAgain = prompt("Tie! Play again y/n?");
-        if (playAgain === "y") {
-            letsPlay()}}
+// Add score 
+function updateScore(result) {
+    if (result == 2){
+        ties += 1;}
+    else if (result == 1){
+        userScore += 1;}
+    else if (result == 0){
+        computerScore += 1;}
 }
 
-letsPlay()
+// Reset scores to 0
+function resetScores() {
+    userScore = 0;
+    computerScore = 0;
+    ties = 0;
+}
+
+// report score
+function currentScore() {
+    console.log(`Current Scores = Player: ${userScore}   Computer: ${computerScore}   Ties: ${ties}`);
+}
+
+
+//Operates the game
+function playGame() {
+    userInput = getPlayerSelection();
+    computerInput = getComputerChoice();
+    gameResult = getWhoWins(userInput, computerInput);
+    updateScore(gameResult);
+    console.log(userResponse(gameResult, winningInput));
+    console.log(currentScore());
+}
+
+let userScore = 0;
+let computerScore = 0;
+let ties = 0;
+let winningInput = "";
+
+
+function finalResult(){
+    if (userScore > computerScore) {
+        let play = prompt("You Win! Play again y/n?");
+        playAgain(play)}
+    else if (userScore < computerScore) {
+        let play = prompt("You Lose! Play again y/n?");
+        playAgain(play)}
+    else {
+        let play = prompt("Tie! Play again y/n?");
+        playAgain(play)}}
+
+
+function playAgain(prompt) {
+    if (prompt === "y") {
+        resetScores();
+        letsPlay();}}
+
+// playgame 5 times
+// function letsPlay() {
+//     for (let i = 0; i < 5; ++i) {
+//         playGame();}
+//     finalResult()
+// }
+
+// letsPlay();
