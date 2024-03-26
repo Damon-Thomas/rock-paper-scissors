@@ -12,19 +12,6 @@ function getComputerChoice() {
         return "internal error";}
 }
 
-
-//request user choice and prep for comparison
-function getPlayerSelection() {
-    let playerChoice = prompt("Rock, Paper, or Scissors");
-    playerChoice = playerChoice.toLowerCase();
-    if ((playerChoice === ("rock")) || (playerChoice === ("paper")) || (playerChoice === ("scissors"))) {
-        return playerChoice;}
-    else {
-        console.log("Invalid Input");
-        getPlayerSelection();
-    }  
-}
-
  // result of game loss 0, win 1, tie 2
 function getWhoWins(userInput, computerInput) {
     result = 2;
@@ -61,6 +48,7 @@ function userResponse(outcome, winningInput){
         response = response + "Paper beats Rock";}
     else if (winningInput === "scissors") {
         response = response + "Scissors beats Paper";}
+    roundResult = response
     return(response)
 }
 
@@ -83,13 +71,13 @@ function resetScores() {
 
 // report score
 function currentScore() {
-    console.log(`Current Scores = Player: ${userScore}   Computer: ${computerScore}   Ties: ${ties}`);
+    return (`Current Scores = Player: ${userScore}   Computer: ${computerScore}   Ties: ${ties}`)
 }
 
 
 //Operates the game
-function playGame() {
-    userInput = getPlayerSelection();
+function playGame(selection) {
+    userInput = selection;
     computerInput = getComputerChoice();
     gameResult = getWhoWins(userInput, computerInput);
     updateScore(gameResult);
@@ -97,34 +85,52 @@ function playGame() {
     console.log(currentScore());
 }
 
+// Variables used by multiple functions
 let userScore = 0;
 let computerScore = 0;
 let ties = 0;
 let winningInput = "";
+let roundResult = ""
 
-
+// result of game in string
 function finalResult(){
     if (userScore > computerScore) {
-        let play = prompt("You Win! Play again y/n?");
-        playAgain(play)}
+        return ("You Win! Select Rock, Paper, or Scissors to Play Again!");
+        // playAgain(play)
+    }
     else if (userScore < computerScore) {
-        let play = prompt("You Lose! Play again y/n?");
-        playAgain(play)}
+        return ("You Lose! Select Rock, Paper, or Scissors to Play Again!");
+        // playAgain(play)
+    }
     else {
-        let play = prompt("Tie! Play again y/n?");
-        playAgain(play)}}
+        return ("Tie! Select Rock, Paper, or Scissors to Play Again!");
+        // playAgain(play)
+    }}
 
 
-function playAgain(prompt) {
-    if (prompt === "y") {
-        resetScores();
-        letsPlay();}}
+function playAgain() {
+    resetScores();
+    }
 
-// playgame 5 times
-// function letsPlay() {
-//     for (let i = 0; i < 5; ++i) {
-//         playGame();}
-//     finalResult()
-// }
+// uses buttons to guide game
+const buttons = document.querySelectorAll("button")
+buttons.forEach((button) => {
+    button.addEventListener("click", ()=> {
+        playGame(button.id);
+        paragraphItem.textContent = roundResult;
+        spanItem.textContent = currentScore();
+        if (userScore >= 5 || computerScore >= 5) {
+            paragraphItem.textContent = finalResult()
+            playAgain();
+        }
+    });
+})
 
-// letsPlay();
+const results = document.querySelector(".results");
+const paragraphItem = document.createElement("p");
+const spanItem = document.createElement("span")
+results.append(paragraphItem);
+results.append(spanItem);
+
+
+
